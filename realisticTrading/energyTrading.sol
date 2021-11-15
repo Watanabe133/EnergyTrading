@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.10;
 
-contract Trading10 {
+contract EnergyTrading {
 	//状態変数宣言
     address public owner;                   //オーナーアドレス
 	uint256 public ContractPrice;           //約定価格
