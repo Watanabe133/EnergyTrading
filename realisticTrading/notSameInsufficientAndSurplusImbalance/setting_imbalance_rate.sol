@@ -187,11 +187,13 @@ contract EnergyTrading {
     function Recalculate(address applicant, uint256 trueEnergy, uint256 insufficientImbalanceRate, uint256 surplusImbalanceRate) public returns(uint256 PenaltyETH, uint256 IndexNumber) {
         uint256 insufficientImbalance;
         uint256 surplusImbalance;
+        uint256 InsufficientImbalanceRate = insufficientImbalanceRate;
+        uint256 SurplusImbalanceRate = surplusImbalanceRate;
         for(uint256 o = 0; o < consumers.length; ) {
             if((consumers[o].consumer == applicant) && (consumers[o].value >= ContractPrice)) {
                 if(trueEnergy < consumers[o].kwh) {
                     insufficientImbalance = 100 - ((trueEnergy * 100) / consumers[o].kwh);
-                    if(insufficientImbalance > insufficientImbalanceRate) {
+                    if(insufficientImbalance > InsufficientImbalanceRate) {
                         RecalculateCount++;
                         return(insufficientImbalance, o);
                     } else {
@@ -199,7 +201,7 @@ contract EnergyTrading {
                     }
                 } else {
                     surplusImbalance = ((trueEnergy * 100) / consumers[o].kwh) - 100;
-                    if(surplusImbalance > surplusImbalanceRate) {
+                    if(surplusImbalance > SurplusImbalanceRate) {
                         RecalculateCount++;
                         return(surplusImbalance, o);
                     } else {
